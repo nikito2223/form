@@ -1,0 +1,11 @@
+name: "form"
+displayName: "Form"
+author: "nikito2223"
+main: "form.FormMod"
+repo: "nikito2223/Form"
+description: "The mod adds new things, a planet, items, blocks and turrets."
+version: "0.0.2"
+minGameVersion: 140
+java: true
+hidden: false
+hideBrowser: true
