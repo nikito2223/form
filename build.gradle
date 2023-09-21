@@ -64,6 +64,9 @@ task jarAndroid{
     }
 }
 
+
+
+
 jar{
     archiveFileName = "${base.archivesBaseName}Desktop.jar"
 

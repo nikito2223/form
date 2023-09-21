@@ -2,21 +2,15 @@ package form;
 
 // Arc Package
 import arc.*;
-import arc.math.*;
-import arc.scene.ui.*;
-import arc.scene.ui.layout.*;
 import arc.util.*;
 // Mindustry Package
-
-import mindustry.content.SectorPresets;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
 import mindustry.ui.Styles;
-import mindustry.ui.fragments.MenuFragment;
 import mindustry.ui.dialogs.*;
-// Vanilla Upgraded Package
+// Form Upgraded Package
 import form.content.*;
 //static
 import static arc.Core.*;
@@ -26,15 +20,24 @@ import static mindustry.game.EventType.*;
 
 public class FormMod extends Mod{
 
-    public FormMod(){
-    	Log.info("Start.");
+    private static String Logs = "LogTexr";
 
-        
+    public FormMod(){
+    	Log.info(Logs);
+        Events.on(ClientLoadEvent.class, e -> {
+         Time.runTask(10f, () -> {
+            BaseDialog dialog = new BaseDialog("MainMenu-help");
+            dialog.cont.add(Logs).row();
+            dialog.cont.button("Okey", dialog::hide).size(100f, 50f);
+            dialog.show();
+            });   
+        });
     }
      @Override
     public void loadContent(){
         FormAttributes.load();
         FormWeathers.load();
+        FormTeam.load();
         FormItems.load();
         FormLiquid.load();
         new FormSchematics().load();

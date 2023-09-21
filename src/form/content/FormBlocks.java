@@ -40,6 +40,7 @@ import mindustry.world.consumers.*;
 import form.audio.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
+import mindustry.content.Blocks.*;
 
 import static form.content.FormItems.*;
 import static mindustry.Vars.*;
@@ -49,9 +50,8 @@ import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.*;
 
-public class
-FormBlocks {
-    public static Block
+public class FormBlocks {
+    public static Block 
     //crafting
     pyratitecrucible, smelterplantupdated, siliconarcburners, coalpress, graphitepress, AirFiliter,
     //production
@@ -67,7 +67,7 @@ FormBlocks {
     //defense
     lithiumConveyor, lithiumRouter, lithiumJunction, lithiumConveyorBridge,
     //environment & ores
-    oreLithium, sleepingBlue, sleepingblueWall, darkBlueSand, distilledwater, fueloli, wallOrelithium, orePlatinum, blueBoulder, orerubyGreen, pinksand, redstone,
+    oreLithium, darkblueStone, darkblueStoneWall, darkBlueSand, distilledwater, fueloli, wallOrelithium, orePlatinum, blueBoulder, orerubyGreen, pinksand, redstone,
     //units
     foidgroundFactory,
     //storage
@@ -78,6 +78,9 @@ FormBlocks {
     launchomt, interplanetary,
     //walls
     lithiumWall, lithiumWallLarge, lithiumWallHuge;
+
+
+
 
     public static void load() {
 
@@ -301,11 +304,10 @@ FormBlocks {
             shake = 2f;
             size = 4;
             shootSound = Sounds.shootBig;
-			coolant = consumeCoolant(0.1f);
+			coolant = consumeCoolant(0.20f);
             scaledHealth = 160;
-            coolant = consumeCoolant(0.20f);
 
-            limitRange();
+            limitRange(0f);
         }};
 			foremdow = new ItemTurret("foremdow"){{
             requirements(Category.turret, with(FormItems.lithium, 40, Items.graphite, 17));
@@ -441,15 +443,14 @@ FormBlocks {
 		//environment & ores
 		darkBlueSand = new Floor("dark-blue-sand") {{
             itemDrop = Items.sand;
-            attributes.set(Attribute.oil, -0.25f);
-            mapColor = Color.valueOf("999999");
+            mapColor = Color.valueOf("5c75f2");
         }};
         pinksand = new Floor("pink-sand") {{
             itemDrop = Items.sand;
             mapColor = Color.valueOf("8664f4");
         }};
         redstone = new Floor("red-stone") {{
-            mapColor = Color.valueOf("cc7a6a");
+            mapColor = Color.valueOf("cf8634");
         }};
 			oreLithium = new OreBlock("ore-lithium", FormItems.lithium){{
             oreDefault = true;
@@ -469,12 +470,20 @@ FormBlocks {
             oreScale = 24.904762f;
             mapColor = Color.valueOf("6dd7d1");
         }};
-		sleepingblueWall = new StaticWall("sleeping-blue-wall"){
-        };
-		sleepingBlue = new Floor("sleeping-blue"){{
+		darkblueStone = new Floor("dark-blue-Stone"){{
             variants = 3;
             attributes.set(Attribute.water, 0.40f);
             attributes.set(Attribute.heat, -0.50f);
+        }};
+        
+        //valid code since Floor extends Block
+        
+
+        darkblueStoneWall = new StaticWall("dark-blue-Stone-Wall") {{
+            Block floor = new Floor("foo");
+            floor = darkblueStone;
+            darkblueStone.asFloor().wall = this;
+            albedo = 0.6f;
         }};
 		distilledwater = new Floor("pooled-distilledwater"){{
             drownTime = 150f;
@@ -500,22 +509,20 @@ FormBlocks {
             liquidDrop = FormLiquid.fueloli;
             liquidMultiplier = 0.5f;
             isLiquid = true;
-
             emitLight = true;
             lightRadius = 25f;
-            lightColor = Color.cyan.cpy().a(0.19f);
         }};
 		wallOrelithium = new OreBlock("ore-wall-lithium", FormItems.lithium){{
             wallOre = true;
         }};
 		blueBoulder = new Prop("blue-Boulder"){{
             variants = 2;
-            sleepingBlue.asFloor().decoration = darkBlueSand.asFloor().decoration = this;
+            darkblueStone.asFloor().decoration = darkBlueSand.asFloor().decoration = this;
         }};
 		//Endenvironment
 		
 		//units
-			foidgroundFactory = new UnitFactory("Foid-ground-factory"){{
+			foidgroundFactory = new UnitFactory("foid-ground-factory"){{
             scaledHealth = 120;
             size = 3;
             consumePower(3f);
@@ -539,7 +546,7 @@ FormBlocks {
 		//endStorage
 		
 		//sampenat
-			launchomt = new LaunchPad("launch-otm"){{
+		launchomt = new LaunchPad("launch-otm"){{
             requirements(Category.effect, BuildVisibility.campaignOnly, with(FormItems.lithium, 40, Items.silicon, 140));
             size = 3;
             itemCapacity = 200;
@@ -569,7 +576,7 @@ FormBlocks {
             size = 2;
             requirements(Category.defense, with(lithium, 24));
         }};
-			lithiumWallHuge = new Wall("lithium-wall-Huge"){{
+			lithiumWallHuge = new Wall("lithium-wall-huge"){{
             scaledHealth = 2200;
             size = 3;
             requirements(Category.defense, with(lithium, 48));

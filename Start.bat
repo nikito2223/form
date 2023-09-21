@@ -2,5 +2,8 @@
 :start
 Color 1
 echo Mode On
-cmd.exe || gradlew.bat jar
+cmd.exe ## log ##
+
+gradlew.bat jar 
+cmd.exe 
 pause

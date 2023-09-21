@@ -31,8 +31,8 @@ public class SatellitePlanetGenerator extends PlanetGenerator
     boolean genLakes = false;
 
     public Block[][] arr = {
-                    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.sleepingblueWall, FormBlocks.sleepingblueWall, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.sleepingblueWall, FormBlocks.pinksand, FormBlocks.pinksand},
-                    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.sleepingblueWall, FormBlocks.sleepingblueWall, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.sleepingblueWall, FormBlocks.redstone, FormBlocks.redstone}
+                    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand},
+                    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand}
             };
 
     ObjectMap<Block, Block> dec = ObjectMap.of(

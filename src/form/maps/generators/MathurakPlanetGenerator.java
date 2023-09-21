@@ -28,24 +28,24 @@ public class MathurakPlanetGenerator extends PlanetGenerator
     BaseGenerator basegen = new BaseGenerator();
     float scl = 9f;
     float waterOffset = 1.15f;
-    boolean genLakes = false;
+    boolean genLakes = true;
 
     public Block[][] arr =
     {
-    {FormBlocks.sleepingblueWall, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue, FormBlocks.sleepingblueWall, FormBlocks.sleepingBlue},
-    {FormBlocks.redstone, FormBlocks.sleepingblueWall, FormBlocks.redstone, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue, FormBlocks.sleepingblueWall, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue},
-    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.sleepingblueWall, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.sleepingBlue, FormBlocks.sleepingblueWall, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue},
-    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.sleepingblueWall, FormBlocks.redstone, FormBlocks.sleepingblueWall, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue},
-    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue, FormBlocks.sleepingBlue}
+    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone},
+    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone},
+    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone},
+    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone},
+    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone}
     };
 
     ObjectMap<Block, Block> dec = ObjectMap.of(
-        FormBlocks.sleepingBlue, FormBlocks.distilledwater,
-        FormBlocks.darkBlueSand, FormBlocks.fueloli
+        FormBlocks.darkblueStone, FormBlocks.redstone,
+        FormBlocks.darkblueStone, FormBlocks.redstone
     );
 
     ObjectMap<Block, Block> tars = ObjectMap.of(
-        FormBlocks.sleepingBlue, FormBlocks.distilledwater,
+        FormBlocks.darkblueStone, FormBlocks.distilledwater,
         FormBlocks.darkBlueSand, FormBlocks.fueloli
     );
 
@@ -109,7 +109,7 @@ public class MathurakPlanetGenerator extends PlanetGenerator
     }
 
     @Override
-     public void genTile(Vec3 position, TileGen tile){
+    public void genTile(Vec3 position, TileGen tile){
         tile.floor = getBlock(position);
         tile.block = tile.floor.asFloor().wall;
 
@@ -202,7 +202,7 @@ public class MathurakPlanetGenerator extends PlanetGenerator
                                 if(Mathf.within(x, y, rad - 1) && !other.floor().isLiquid){
                                     Floor floor = other.floor();
                                     //TODO does not respect tainted floors
-                                    other.setFloor((Floor)(floor == FormBlocks.darkBlueSand || floor == FormBlocks.sleepingBlue ? FormBlocks.darkBlueSand : FormBlocks.darkBlueSand));
+                                    other.setFloor((Floor)(floor == FormBlocks.darkBlueSand || floor == FormBlocks.darkblueStone ? FormBlocks.darkBlueSand : FormBlocks.darkBlueSand));
                                 }
                             }
                         }
@@ -320,7 +320,7 @@ public class MathurakPlanetGenerator extends PlanetGenerator
 
         distort(10f, 6f);
 
-        Seq<Block> ores = Seq.with(FormBlocks.orePlatinum, FormBlocks.orePlatinum);
+        Seq<Block> ores = Seq.with(FormBlocks.orePlatinum, FormBlocks.orerubyGreen);
         float poles = Math.abs(sector.tile.v.y);
         float nmag = 0.5f;
         float scl = 1f;
@@ -331,11 +331,11 @@ public class MathurakPlanetGenerator extends PlanetGenerator
         }
 
         if(Simplex.noise3d(seed, 2, 0.5, scl, sector.tile.v.x + 1, sector.tile.v.y, sector.tile.v.z)*nmag + poles > 0.5f*addscl){
-            ores.add(FormBlocks.oreLithium);
+            ores.add(FormBlocks.orePlatinum);
         }
 
         if(Simplex.noise3d(seed, 2, 0.5, scl, sector.tile.v.x + 2, sector.tile.v.y, sector.tile.v.z)*nmag + poles > 0.7f*addscl){
-            ores.add(FormBlocks.oreLithium);
+            ores.add(FormBlocks.orerubyGreen);
         }
 
         FloatSeq frequencies = new FloatSeq();
@@ -379,7 +379,7 @@ public class MathurakPlanetGenerator extends PlanetGenerator
             }
 
             //tar
-            if(floor == FormBlocks.darkBlueSand){
+            if(floor == FormBlocks.redstone){
                 if(Math.abs(0.5f - noise(x - 40, y, 2, 0.7, 80)) > 0.25f &&
                 Math.abs(0.5f - noise(x, y + sector.id*10, 1, 1, 60)) > 0.41f && !(roomseq.contains(r -> Mathf.within(x, y, r.x, r.y, 15)))){
                     floor = Blocks.tar;
@@ -389,7 +389,7 @@ public class MathurakPlanetGenerator extends PlanetGenerator
             //hotrock tweaks
             if(floor == Blocks.hotrock){
                 if(Math.abs(0.5f - noise(x - 90, y, 4, 0.8, 80)) > 0.035){
-                    floor = FormBlocks.darkBlueSand;
+                    floor = FormBlocks.redstone;
                 }else{
                     ore = Blocks.air;
                     boolean all = true;
@@ -403,7 +403,7 @@ public class MathurakPlanetGenerator extends PlanetGenerator
                         floor = Blocks.magmarock;
                     }
                 }
-            }else if(genLakes && floor != FormBlocks.darkBlueSand && floor != FormBlocks.sleepingBlue && floor.asFloor().hasSurface()){
+            }else if(genLakes && floor != FormBlocks.darkBlueSand && floor != FormBlocks.darkblueStone && floor.asFloor().hasSurface()){
                 float noise = noise(x + 782, y, 5, 0.75f, 260f, 1f);
                 if(noise > 0.67f && !roomseq.contains(e -> Mathf.within(x, y, e.x, e.y, 14))){
                     if(noise > 0.72f){
@@ -469,7 +469,7 @@ public class MathurakPlanetGenerator extends PlanetGenerator
         state.rules.spawns = Waves.generate(difficulty, new Rand(sector.id), state.rules.attackMode, state.rules.attackMode && spawner.countGroundSpawns() == 0, naval);
     }
 
-    /* @Override
+    /*@Override
     protected void generate(){
 
         class Room{
@@ -785,7 +785,7 @@ public class MathurakPlanetGenerator extends PlanetGenerator
 
         pass((x, y) -> {
             //random moss
-            if(floor == FormBlocks.sleepingBlue){
+            if(floor == FormBlocks.darkblueStone){
                 if(Math.abs(0.5f - noise(x - 90, y, 4, 0.8, 65)) > 0.02){
                     floor = Blocks.moss;
                 }
@@ -808,7 +808,7 @@ public class MathurakPlanetGenerator extends PlanetGenerator
                     boolean all = true;
                     for(Point2 p : Geometry.d4){
                         Tile other = tiles.get(x + p.x, y + p.y);
-                        if(other == null || (other.floor() != FormBlocks.darkBlueSand && other.floor() != FormBlocks.sleepingBlue)){
+                        if(other == null || (other.floor() != FormBlocks.darkBlueSand && other.floor() != FormBlocks.darkblueStone)){
                             all = false;
                         }
                     }
@@ -816,11 +816,11 @@ public class MathurakPlanetGenerator extends PlanetGenerator
                         floor = FormBlocks.darkBlueSand;
                     }
                 }
-            }else if(genLakes && floor != FormBlocks.sleepingBlue && floor != FormBlocks.sleepingBlue && floor.asFloor().hasSurface()){
+            }else if(genLakes && floor != FormBlocks.darkblueStone && floor != FormBlocks.darkblueStone && floor.asFloor().hasSurface()){
                 float noise = noise(x + 782, y, 5, 0.75f, 260f, 1f);
                 if(noise > 0.67f && !roomseq.contains(e -> Mathf.within(x, y, e.x, e.y, 14))){
                     if(noise > 0.72f){
-                        floor = noise > 0.78f ? FormBlocks.sleepingBlue : (floor == FormBlocks.darkBlueSand ? FormBlocks.distilledwater : FormBlocks.distilledwater);
+                        floor = noise > 0.78f ? FormBlocks.darkblueStone : (floor == FormBlocks.darkBlueSand ? FormBlocks.distilledwater : FormBlocks.distilledwater);
                     }else{
                         floor = (floor == FormBlocks.darkBlueSand ? floor : FormBlocks.darkBlueSand);
                     }

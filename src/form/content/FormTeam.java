@@ -7,7 +7,7 @@ public class FormTeam {
     public static Team sievers;
 
     public static void load() {
-        sievers = newTeam(69, "form-team-sievers", Color.valueOf("2B5881"));
+        sievers = newTeam(69, "team-sievers", Color.valueOf("2B5881"));
     }
 
     //modify any of 256 teams' properties

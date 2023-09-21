@@ -25,7 +25,6 @@ public class FormLiquid {
             barColor = Color.valueOf("121212");
             effect = StatusEffects.tarred;
             boilPoint = 0.65f;
-            gasColor = Color.grays(0.4f);
         }};
 		air = new Liquid("air", Color.valueOf("a0a0a0")){{
             gas = true;
