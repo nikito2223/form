@@ -77,6 +77,7 @@ public class FormPlanets{
             solarSystem = sapuke;
             alwaysUnlocked = true;
             startSector = 12;
+            
             ruleSetter = r -> {
                 r.fog = true;
                 r.placeRangeCheck = false;
