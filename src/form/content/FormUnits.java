@@ -1,42 +1,27 @@
 package form.content;
 
-import arc.graphics.*;
-import arc.graphics.g2d.*;
-import arc.math.*;
-import arc.math.geom.*;
-import arc.struct.*;
-import arc.util.*;
-import mindustry.ai.*;
+import arc.graphics.Color;
 import mindustry.ai.types.*;
-import mindustry.entities.*;
-import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
-import mindustry.entities.effect.*;
-import mindustry.entities.part.*;
-import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.type.ammo.*;
-import mindustry.type.unit.*;
 import mindustry.type.weapons.*;
-import mindustry.world.meta.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.graphics.Pal;
+import form.graphics.FormPal;
 
-import static arc.graphics.g2d.Draw.*;
-import static form.content.FormItems.*;
-import static arc.graphics.g2d.Lines.*;
-import static arc.math.Angles.*;
 import static mindustry.Vars.*;
 
 public class FormUnits{
 
-    public static UnitType
-    arom, genrtor, herma;
+    public static UnitType arom;
+    public static UnitType herma;
+    public static UnitType genrtor, mover;
        
-    public void load(){
+    public static void load(){
         arom = new UnitType("arom") {{
             coreUnitDock = true;
             controller = u -> new BuilderAI(true, 500f);
@@ -116,104 +101,237 @@ public class FormUnits{
             ammoType = new PowerAmmoType(900);
             armor = 4f;
 
-            buildSpeed = 1.5f;
+            buildSpeed = 1.8f;
 
-            weapons.add(new RepairBeamWeapon("form-herma-weapon"){{
-                x = 0f;
-                y = -5.5f;
-                shootY = 6f;
-                beamWidth = 0.8f;
-                mirror = false;
-                repairSpeed = 0.75f;
-
-                bullet = new BulletType(){{
-                    maxRange = 120f;
+            weapons.add(
+            new Weapon("heal-weapon-mount"){{
+                shootSound = Sounds.lasershoot;
+                reload = 24f;
+                x = 8f;
+                y = -6f;
+                rotate = true;
+                bullet = new LaserBoltBulletType(5.2f, 10){{
+                    lifetime = 35f;
+                    healPercent = 5.5f;
+                    collidesTeam = true;
+                    backColor = Pal.heal;
+                    frontColor = Color.white;
+                }};
+            }},
+            new Weapon("heal-weapon-mount"){{
+                shootSound = Sounds.lasershoot;
+                reload = 15f;
+                x = 4f;
+                y = 5f;
+                rotate = true;
+                bullet = new LaserBoltBulletType(5.2f, 8){{
+                    lifetime = 35f;
+                    healPercent = 3f;
+                    collidesTeam = true;
+                    backColor = Pal.heal;
+                    frontColor = Color.white;
                 }};
             }});
+				weapons.add(new RepairBeamWeapon(){{
+                widthSinMag = 0.11f;
+                reload = 20f;
+                x = 19f/4f;
+                y = 19f/4f;
+                rotate = false;
+                shootY = 0f;
+                beamWidth = 0.7f;
+                aimDst = 0f;
+                shootCone = 40f;
+                mirror = true;
 
-            new Weapon("form-herma-weapon"){{
-                y = 1f;
-                x = 16f;
+                repairSpeed = 3.6f / 2f;
+                fractionRepairSpeed = 0.03f;
+
+                targetUnits = false;
+                targetBuildings = true;
+                autoTarget = false;
+                controllable = true;
+                laserColor = Pal.accent;
+                healColor = Pal.accent;
+
+                bullet = new BulletType(){{
+                    maxRange = 65f;
+                }};
+            }});
+        }};
+        mover = new UnitType("mover"){{
+            speed = 0.9f;
+            targetAir = false;
+            drag = 0.14f;
+            hitSize = 12f;
+            health = 270;
+            accel = 0.4f;
+            rotateSpeed = 5f;
+            aiController = SuicideAI::new;
+            constructor = UnitEntity::create;
+            trailLength = 20;
+            waveTrailX = 5f;
+            trailScl = 1.3f;
+            faceTarget = false;
+            range = 100f;
+            ammoType = new PowerAmmoType(900);
+            armor = 4f;
+
+            buildSpeed = 1.8f;
+
+            weapons.add(
+            new Weapon("heal-weapon-mount"){{
+                shootSound = Sounds.lasershoot;
+                reload = 15f;
+                x = 4f;
+                y = 5f;
+                rotate = true;
+                bullet = new LaserBoltBulletType(5.2f, 8){{
+                    lifetime = 35f;
+                    healPercent = 3f;
+                    collidesTeam = true;
+                    backColor = Pal.heal;
+                    frontColor = Color.white;
+                }};
+            }});
+                weapons.add(new RepairBeamWeapon(){{
+                widthSinMag = 0.11f;
+                reload = 20f;
+                x = 19f/4f;
+                y = 19f/4f;
+                rotate = false;
+                shootY = 0f;
+                beamWidth = 0.7f;
+                aimDst = 0f;
+                shootCone = 40f;
+                mirror = true;
+
+                repairSpeed = 3.6f / 2f;
+                fractionRepairSpeed = 0.03f;
+
+                targetUnits = false;
+                targetBuildings = true;
+                autoTarget = false;
+                controllable = true;
+                laserColor = Pal.accent;
+                healColor = Pal.accent;
+
+                bullet = new BulletType(){{
+                    maxRange = 65f;
+                }};
+            }});
+                weapons.add(new Weapon("form-mover-cannon"){{
+                y = -14f;
+                x = 0f;
+                shootY = 22f;
                 mirror = false;
-                shootY = 8f;
-                reload = 45f;
-                
-                recoil = 5f;
-                shake = 2f;
+                reload = 210;
+                shake = 10f;
+                recoil = 10f;
+                rotateSpeed = 1f;
                 ejectEffect = Fx.casing3;
-                shootSound = Sounds.bang;
-                inaccuracy = 3f;
+                shootSound = Sounds.artillery;
+                rotate = true;
+                shadow = 30f;
 
-                shoot.shots = 3;
-                shoot.shotDelay = 4f;
+                rotationLimit = 80f;
 
-                bullet = new BasicBulletType(13f, 80){{
-                    pierce = true;
-                    pierceCap = 10;
-                    width = 14f;
-                    height = 33f;
-                    lifetime = 15f;
-                    shootEffect = Fx.shootBig;
-                    fragVelocityMin = 0.4f;
+                bullet = new ArtilleryBulletType(3f, 50){{
+                    hitEffect = Fx.sapExplosion;
+                    knockback = 0.8f;
+                    lifetime = 80f;
+                    width = height = 25f;
+                    collidesTiles = collides = true;
+                    ammoMultiplier = 4f;
+                    splashDamageRadius = 80f;
+                    splashDamage = 75f;
+                    backColor = Pal.sapBulletBack;
+                    frontColor = lightningColor = Pal.sapBullet;
+                    lightning = 5;
+                    lightningLength = 20;
+                    smokeEffect = Fx.shootBigSmoke2;
+                    hitShake = 10f;
+                    lightRadius = 40f;
+                    lightColor = Pal.sap;
+                    lightOpacity = 0.6f;
 
-                    hitEffect = Fx.blastExplosion;
-                    splashDamage = 18f;
-                    splashDamageRadius = 13f;
+                    statusDuration = 60f * 10;
 
-                    fragBullets = 3;
-                    fragLifeMin = 0f;
-                    fragRandomSpread = 30f;
+                    fragLifeMin = 0.3f;
+                    fragBullets = 9;
 
-                    fragBullet = new BasicBulletType(9f, 20){{
-                        width = 10f;
-                        height = 10f;
-                        pierce = true;
-                        pierceBuilding = true;
-                        pierceCap = 3;
+                    fragBullet = new ArtilleryBulletType(2.3f, 30){{
+                        knockback = 0.8f;
+                        lifetime = 90f;
+                        width = height = 20f;
+                        collidesTiles = false;
+                        splashDamageRadius = 70f;
+                        splashDamage = 40f;
+                        backColor = FormPal.platinumBack;
+                        frontColor = lightningColor = FormPal.platinumFront;
+                        lightning = 2;
+                        lightningLength = 5;
+                        smokeEffect = FormFx.hacker;
+                        hitShake = 5f;
+                        lightRadius = 30f;
+                        lightColor = FormPal.platinumFront;
+                        lightOpacity = 0.5f;
 
-                        lifetime = 20f;
-                        hitEffect = Fx.flakExplosion;
-                        splashDamage = 15f;
-                        splashDamageRadius = 10f;
+                        statusDuration = 60f * 10;
                     }};
                 }};
-            }};
-				
+            }});
         }};
 
         herma = new UnitType("herma"){{
-            speed = 0.35f;
-            hitSize = 26f;
-            rotateSpeed = 1.65f;
-            health = 1040;
-            armor = 14f;
-            mechStepParticles = true;
-            stepShake = 0.75f;
-            drownTimeMultiplier = 6f;
-            mechFrontSway = 1.9f;
-            mechSideSway = 0.6f;
-			constructor = UnitEntity::create;
-            ammoType = new ItemAmmoType(FormItems.lithium);
+            drag = 0.1f;
+            speed = 0.62f;
+            hitSize = 23f;
+            health = 9500;
+            armor = 6f;
 
-            mechStepParticles = true;
-            stepShake = 0.15f;
-            singleTarget = true;
-            drownTimeMultiplier = 4f;
+            rotateSpeed = 2.7f;
 
-            BulletType smallBullet = new BasicBulletType(3f, 10){{
-                width = 7f;
-                height = 9f;
-                lifetime = 50f;
+            legCount = 6;
+            legMoveSpace = 1f;
+            legPairOffset = 3;
+            legLength = 30f;
+            legExtension = -15;
+            legBaseOffset = 10f;
+            stepShake = 1f;
+            legLengthScl = 0.96f;
+            rippleScale = 2f;
+            legSpeed = 0.2f;
+            ammoType = new PowerAmmoType(2000);
+
+            legSplashDamage = 32;
+            legSplashRange = 30;
+            drownTimeMultiplier = 2f;
+            aiController = SuicideAI::new;
+            constructor = UnitEntity::create;
+            hovering = true;
+            shadowElevation = 0.65f;
+            groundLayer = Layer.legUnit;
+
+            BulletType sapper = new SapBulletType(){{
+                sapStrength = 0.85f;
+                length = 55f;
+                damage = 40;
+                shootEffect = Fx.shootSmall;
+                hitColor = color = Color.valueOf("bf92f9");
+                despawnEffect = Fx.none;
+                width = 0.55f;
+                lifetime = 30f;
+                knockback = -1f;
             }};
 
             weapons.add(
             new Weapon("form-herma-weapon"){{
+                top = false;
                 y = 1f;
                 x = 16f;
-				mirror = false;
                 shootY = 8f;
                 reload = 45f;
-				
                 recoil = 5f;
                 shake = 2f;
                 ejectEffect = Fx.casing3;
@@ -223,127 +341,83 @@ public class FormUnits{
                 shoot.shots = 3;
                 shoot.shotDelay = 4f;
 
-                bullet = new BasicBulletType(13f, 80){{
-                    pierce = true;
-                    pierceCap = 10;
-                    width = 14f;
-                    height = 33f;
-                    lifetime = 15f;
+                bullet = new BasicBulletType(7f, 50){{
+                    width = 11f;
+                    height = 20f;
+                    lifetime = 25f;
                     shootEffect = Fx.shootBig;
-                    fragVelocityMin = 0.4f;
-
-                    hitEffect = Fx.blastExplosion;
-                    splashDamage = 18f;
-                    splashDamageRadius = 13f;
-
-                    fragBullets = 3;
-                    fragLifeMin = 0f;
-                    fragRandomSpread = 30f;
-
-                    fragBullet = new BasicBulletType(9f, 20){{
-                        width = 10f;
-                        height = 10f;
-                        pierce = true;
-                        pierceBuilding = true;
-                        pierceCap = 3;
-
-                        lifetime = 20f;
-                        hitEffect = Fx.flakExplosion;
-                        splashDamage = 15f;
-                        splashDamageRadius = 10f;
-                    }};
+                    lightning = 2;
+                    lightningLength = 6;
+                    lightningColor = Pal.surge;
+                    //standard bullet damage is far too much for lightning
+                    lightningDamage = 20;
                 }};
-            }},
-
-
-            new Weapon("form-herma-weapon"){{
-                y = 1f;
-                x = -16f;
+            }}
+            );
+            weapons.add(new Weapon("form-herma-cannon"){{
+                y = -14f;
+                x = 0f;
+                shootY = 22f;
                 mirror = false;
-                shootY = 8f;
-                reload = 45f;
-                
-                recoil = 5f;
-                shake = 2f;
+                reload = 210;
+                shake = 10f;
+                recoil = 10f;
+                rotateSpeed = 1f;
                 ejectEffect = Fx.casing3;
-                shootSound = Sounds.bang;
-                inaccuracy = 3f;
+                shootSound = Sounds.artillery;
+                rotate = true;
+                shadow = 30f;
 
-                shoot.shots = 3;
-                shoot.shotDelay = 4f;
+                rotationLimit = 80f;
 
-                bullet = new BasicBulletType(13f, 80){{
-                    pierce = true;
-                    pierceCap = 10;
-                    width = 14f;
-                    height = 33f;
-                    lifetime = 15f;
-                    shootEffect = Fx.shootBig;
-                    fragVelocityMin = 0.4f;
+                bullet = new ArtilleryBulletType(3f, 50){{
+                    hitEffect = Fx.sapExplosion;
+                    knockback = 0.8f;
+                    lifetime = 80f;
+                    width = height = 25f;
+                    collidesTiles = collides = true;
+                    ammoMultiplier = 4f;
+                    splashDamageRadius = 80f;
+                    splashDamage = 75f;
+                    backColor = Pal.sapBulletBack;
+                    frontColor = lightningColor = Pal.sapBullet;
+                    lightning = 5;
+                    lightningLength = 20;
+                    smokeEffect = Fx.shootBigSmoke2;
+                    hitShake = 10f;
+                    lightRadius = 40f;
+                    lightColor = Pal.sap;
+                    lightOpacity = 0.6f;
 
-                    hitEffect = Fx.blastExplosion;
-                    splashDamage = 18f;
-                    splashDamageRadius = 13f;
+                    status = FormStatus.platinum;
+                    statusDuration = 60f * 10;
 
-                    fragBullets = 3;
-                    fragLifeMin = 0f;
-                    fragRandomSpread = 30f;
+                    fragLifeMin = 0.3f;
+                    fragBullets = 9;
 
-                    fragBullet = new BasicBulletType(9f, 20){{
-                        width = 10f;
-                        height = 10f;
-                        pierce = true;
-                        pierceBuilding = true;
-                        pierceCap = 3;
+                    fragBullet = new ArtilleryBulletType(2.3f, 30){{
+                        hitEffect = FormFx.hacker;
+                        knockback = 0.8f;
+                        lifetime = 90f;
+                        width = height = 20f;
+                        collidesTiles = false;
+                        splashDamageRadius = 70f;
+                        splashDamage = 40f;
+                        backColor = FormPal.platinumBack;
+                        frontColor = lightningColor = FormPal.platinumFront;
+                        lightning = 2;
+                        lightningLength = 5;
+                        smokeEffect = FormFx.hacker;
+                        hitShake = 5f;
+                        lightRadius = 30f;
+                        lightColor = FormPal.platinumFront;
+                        lightOpacity = 0.5f;
 
-                        lifetime = 20f;
-                        hitEffect = Fx.flakExplosion;
-                        splashDamage = 15f;
-                        splashDamageRadius = 10f;
+                        status = FormStatus.platinum;
+                        statusDuration = 60f * 10;
                     }};
                 }};
-            }},
-
-            new Weapon("form-hermo-weapon"){{
-                reload = 13f;
-                x = 8.5f;
-                y = 6f;
-				mirror = false;
-                rotate = true;
-                ejectEffect = Fx.casing1;
-                bullet = smallBullet;
-            }},
-            new Weapon("form-hermo-weapon"){{
-                reload = 16f;
-                x = 8.5f;
-				mirror = false;
-                y = -7f;
-                rotate = true;
-                ejectEffect = Fx.casing1;
-                bullet = smallBullet;
-            }}
-
-            );
-            weapons.add(
-                new Weapon("form-hermo-weapon"){{
-                reload = 13f;
-                x = -8.5f;
-                y = 6f;
-                mirror = false;
-                rotate = true;
-                ejectEffect = Fx.casing1;
-                bullet = smallBullet;
-            }},
-            new Weapon("form-hermo-weapon"){{
-                reload = 16f;
-                x = -8.5f;
-                mirror = false;
-                y = -7f;
-                rotate = true;
-                ejectEffect = Fx.casing1;
-                bullet = smallBullet;
-            }}
-            );
+            }});
         }};
     }
 }

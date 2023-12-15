@@ -1,12 +1,7 @@
 package form.content;
 
-import mindustry.*;
-import mindustry.game.*;
-import mindustry.Vars;
 import mindustry.game.Schematic;
 import mindustry.game.Schematics;
-
-import java.io.IOException;
 
 public class FormSchematics {
     public static Schematic coreDawn;

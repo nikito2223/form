@@ -1,18 +1,12 @@
 package form.content;
 
 import arc.struct.Seq;
-import mindustry.type.SectorPreset;
 import mindustry.game.Objectives.*;
-import mindustry.content.*;
 import arc.struct.*;
-import mindustry.type.*;
 
 import static form.content.FormBlocks.*;
 import static form.content.FormItems.*;
-import static form.content.FormSectors.*;
-import static form.content.FormPlanets.*;
 import static mindustry.content.Items.*;
-import static form.content.FormLiquid.*;
 import static mindustry.content.TechTree.*;
 
 public class MathurakTechTree {
@@ -21,9 +15,29 @@ public class MathurakTechTree {
     public static void load() {
 
         FormPlanets.mathurak.techTree = nodeRoot("@planet.form-mathurak.name", coretomer, () -> {
-
+		
+            node(lithiumDuct, () -> {
+                node(lithiumRouter, () -> {
+					node(lithiumJunction, () -> {
+							node(lithiumBridgeItem, () -> {
+								node(FormBlocks.launchomt,Seq.with(new SectorComplete(FormSectors.lemans)), () -> {
+									node(FormBlocks.interplanetary,Seq.with(new SectorComplete(FormSectors.lemans)), () -> {
+								});
+							});  
+						});
+					});
+				});
+            });
             
-            node(crusherdrill, () -> {
+            node(crusherdrill, () -> { 
+                node(lithiumPump, () -> {
+                 node(lithiumconduit, () -> {
+                    node(lithiumconduitrouter, () -> {
+                        node(lithiumBridgeLiquid, () -> {   
+                });
+           });
+       });
+    });
                 node(coalpress, () -> {
                     node(graphitepress, () -> {
                         node(siliconarcburners, Seq.with(
@@ -34,34 +48,26 @@ public class MathurakTechTree {
                             
                     });
                 });
-            }); 
-							node(gannerSolarPanel,Seq.with(new SectorComplete(FormSectors.lemans)), () -> {
-								node(powerGerm,Seq.with(new SectorComplete(FormSectors.lemans)), () -> {
-									node(projectormoto,Seq.with(new SectorComplete(FormSectors.konota)), () -> {
-						
-					});
-				});
-			});
-        });
-		
-            node(lithiumConveyor, () -> {
-                node(lithiumRouter, () -> {
-					node(lithiumJunction, () -> {
-							node(lithiumConveyorBridge, () -> {
-								node(FormBlocks.launchomt,Seq.with(new SectorComplete(FormSectors.lemans)), () -> {
-									node(FormBlocks.interplanetary,Seq.with(new SectorComplete(FormSectors.lemans)), () -> {
-								});
-							});  
-						});
-					});
-				});
+            });         
+                    node(gannerSolarPanel,Seq.with(new SectorComplete(FormSectors.lemans)), () -> {
+                        node(powerGerm,Seq.with(new SectorComplete(FormSectors.lemans)), () -> {
+                            node(projectormoto,Seq.with(new SectorComplete(FormSectors.konota)), () -> {
+                        
+                    });
+                });
             });
+        });
 			
-			node(FormBlocks.foidgroundFactory, Seq.with(new SectorComplete(FormSectors.lemans)), () -> {
+			node(FormBlocks.spiderFactory, Seq.with(new SectorComplete(FormSectors.lemans)), () -> {
 				node(FormUnits.genrtor, () -> {	
-					});
-				node(FormUnits.herma, () -> {
-				});
+                });
+				node(FormUnits.herma, () -> { 
+                });
+                node(FormUnits.mover, Seq.with(new Research(spiderReconstructor)),  () -> { 
+                });
+                node(FormBlocks.spiderReconstructor, Seq.with(new SectorComplete(FormSectors.konota)), () -> {
+
+                });
 			});
 		 
             node(foremdow, () -> {
@@ -75,6 +81,7 @@ public class MathurakTechTree {
                 node(FormBlocks.destroyers,Seq.with(new SectorComplete(FormSectors.konota)), ()-> {});
 
             });
+         node(FormSectors.start, () -> {
             node(FormSectors.lemans, () -> {
                 node(FormSectors.konota,Seq.with(
                     new SectorComplete(FormSectors.lemans),
@@ -85,29 +92,22 @@ public class MathurakTechTree {
                     ), () -> {
 						node(FormSectors.imposmor,Seq.with(
 						new SectorComplete(FormSectors.konota),
-						new Research(FormBlocks.foidgroundFactory)
+						new Research(FormBlocks.spiderFactory)
 						), () -> {
 							
 					});
                 });
             });
-            
-            node(lithiumPump, () -> {
-                 node(lithiumconduit, () -> {
-					node(lithiumconduitrouter, () -> {
-						node(lithiumBridge, () -> {	
-				});
-           });
-	   });
-	});
+        });
 
             nodeProduce(lithium, () -> {
                 node(FormLiquid.distilledwater, () -> {
                     node(FormLiquid.fueloli);
             });
-                nodeProduce(platinum, () -> nodeProduce(lead, () -> {
-                    nodeProduce(graphite, () -> {
-                        nodeProduce(silicon, () -> {});
+                nodeProduce(platinum, () -> 
+                    nodeProduce(coal, () -> {
+                        nodeProduce(graphite, () -> {
+                            nodeProduce(silicon, () -> {});
                         });
                     }));
                 });

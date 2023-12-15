@@ -7,12 +7,15 @@ import mindustry.content.TechTree.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Objectives.*;
 
+import static mindustry.content.TechTree.*;
+
 public class SerpuloTechTree {
     public static void load() {
         newNode(FormBlocks.pyratitecrucible, Blocks.multiPress, Seq.with(new SectorComplete(FormSectors.deferhor)));
         newNode(FormBlocks.slagdrill, Blocks.waterExtractor, Seq.with(new SectorComplete(FormSectors.deferhor)));
         newNode(FormBlocks.smelterplantupdated, Blocks.melter, Seq.with(new SectorComplete(FormSectors.deferhor)));
-        newNode(FormSectors.deferhor, SectorPresets.planetaryTerminal, Seq.with(new SectorComplete(SectorPresets.planetaryTerminal)));
+        
+
     }
 
     private static void newNode(UnlockableContent content, UnlockableContent parent, Seq<Objective> objectives) {

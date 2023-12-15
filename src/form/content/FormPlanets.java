@@ -1,13 +1,10 @@
 package form.content;
 
 import arc.graphics.*;
-import arc.func.*;
 import form.maps.generators.*;
-import form.content.FormBlocks.*;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.graphics.g3d.*;
-import mindustry.content.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 
@@ -18,11 +15,11 @@ import static form.content.FormItems.*;
 public class FormPlanets{
 
     public static Planet
-        /* planets */ mathurak, satellite, Asteroid,
+        /* planets */ mathurak, satellite,
 		/*star*/ sakeru, sapuke;
 
     public static void load() {
-        sakeru = new Planet("sakeru", Planets.sun, 4f, 2){{
+        sakeru = new Planet("sakeru", Planets.sun, 3f, 2){{
             bloom = true;
 			solarSystem = this;
 			drawOrbit = false;
@@ -34,28 +31,28 @@ public class FormPlanets{
                     this, 6,
                     5, 0.3, 1.7, 1.2, 1,
                     1.1f,
-                    Color.valueOf("3abcd6"),
-                    Color.valueOf("388fa1"),
-                    Color.valueOf("318ab0"),
-                    Color.valueOf("0d668c")
+                    Color.valueOf("4e4bde"),
+                    Color.valueOf("1a17e3"),
+                    Color.valueOf("2f2bff"),
+                    Color.valueOf("2f2bff")
 					);
         }};
-        sapuke = new Planet("sapuke", Planets.sun, 2f, 0){{
+        sapuke = new Planet("sapuke", sakeru, 2f, 0){{
             bloom = true;
             solarSystem = this;
             drawOrbit = false;
             accessible = false;
             lightColor = Color.valueOf("1c911a");
             hasAtmosphere = true;
-            orbitRadius = 400;
+            orbitRadius = 50f;
             meshLoader = () -> new SunMesh(
                     this, 9,
                     5, 0.3, 1.7, 1.2, 1,
                     1.1f,
-                    Color.valueOf("438214"),
-                    Color.valueOf("709e4d"),
-                    Color.valueOf("30471e"),
-                    Color.valueOf("a7e378")
+                    Color.valueOf("fce46d"),
+                    Color.valueOf("e8d576"),
+                    Color.valueOf("d4b208"),
+                    Color.valueOf("fff0a6")
 					);
 
         }};
@@ -74,10 +71,9 @@ public class FormPlanets{
             orbitRadius = 30f;
             iconColor = Color.valueOf("b53a14");
             atmosphereColor = Color.valueOf("b53a14");
-            solarSystem = sapuke;
             alwaysUnlocked = true;
             startSector = 12;
-            
+            solarSystem = sapuke;
             ruleSetter = r -> {
                 r.fog = true;
                 r.placeRangeCheck = false;
@@ -100,30 +96,37 @@ public class FormPlanets{
                     new HexSkyMesh(this, 7, 0.1f, 0.28f, 8, Color.valueOf("7a7a7a").a(0.75f), 2, 0.45f, 1.13f, 0.45f),
                     new HexSkyMesh(this, 3, 0.2f, 0.23f, 3, Color.valueOf("383838").a(0.65f), 3, 0.25f, 1.22f, 0.45f),
                     new HexSkyMesh(this, 8, 0.2f, 0.23f, 9, Color.valueOf("7a7a7a").a(0.65f), 3, 0.25f, 1.22f, 0.45f)
-                        launchCapacityMultiplier = 0.5f;
+                );
+            launchCapacityMultiplier = 0.5f;
             sectorSeed = 2;
             allowWaves = true;
             allowWaveSimulation = true;
             allowSectorInvasion = true;
             allowLaunchSchematics = true;
             enemyCoreSpawnReplace = true;
+            orbitRadius = 60f;
             allowLaunchLoadout = false;
             solarSystem = sakeru;
+            landCloudColor = Color.valueOf("41b9ec");
             //doesn't play well with configs
             prebuildBase = false;
             ruleSetter = r -> {
-                r.fog = true;
                 r.waveTeam = FormTeam.sievers;
                 r.placeRangeCheck = false;
-                r.showSpawns = false;
+                r.showSpawns = true;
+                r.fog = true;
+                r.staticFog = true;
+                r.lighting = false;
+                r.coreDestroyClear = true;
+                r.onlyDepositCore = true;
             };
             iconColor = Color.valueOf("4d6aff");
-            atmosphereColor = Color.valueOf("1b498f");
+            atmosphereColor = Color.valueOf("002b64");
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.3f;
             startSector = 15;
             alwaysUnlocked = true;
-            landCloudColor = Pal.spore.cpy().a(0.5f);
+            defaultAttributes.set(FormAttributes.windPower, 0.8f);
             unlockedOnLand.add(FormBlocks.coretomer);
         }};
 

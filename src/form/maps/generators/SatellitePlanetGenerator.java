@@ -11,11 +11,8 @@ import mindustry.game.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.content.*;
-import mindustry.maps.planet.*;
-import mindustry.ai.BaseRegistry.*;
 import mindustry.maps.generators.*;
 import mindustry.graphics.g3d.PlanetGrid.*;
-import mindustry.world.blocks.environment.*;
 import form.content.*;
 
 import static mindustry.Vars.*;
@@ -26,8 +23,8 @@ public class SatellitePlanetGenerator extends PlanetGenerator
     public static boolean alt = false;
 
     BaseGenerator basegen = new BaseGenerator();
-    float scl = 9f;
-    float waterOffset = 1.15f;
+    float scl = 3f;
+    float waterOffset = 0.154f;
     boolean genLakes = false;
 
     public Block[][] arr = {
@@ -124,8 +121,6 @@ public class SatellitePlanetGenerator extends PlanetGenerator
         height *= 1.2f;
         height = Mathf.clamp(height);
 
-        float tar = Simplex.noise3d(seed, 4, 0.55f, 1f/2f, position.x, position.y + 999f, position.z) * 0.3f + Tmp.v31.dst(0, 0, 1f) * 0.2f;
-
         Block res = arr[Mathf.clamp((int)(temp * arr.length), 0, arr[0].length - 1)][Mathf.clamp((int)(height * arr[0].length), 0, arr[0].length - 1)];
         return res;
     }
@@ -176,50 +171,6 @@ public class SatellitePlanetGenerator extends PlanetGenerator
 
                 join(x, y, mx, my);
                 join(mx, my, to.x, to.y);
-            }
-
-            void joinLiquid(int x1, int y1, int x2, int y2){
-                float nscl = rand.random(100f, 140f) * 6f;
-                int rad = rand.random(5, 10);
-                int avoid = 2 + rad;
-                var path = pathfind(x1, y1, x2, y2, tile -> (tile.solid() || !tile.floor().isLiquid ? 70f : 0f) + noise(tile.x, tile.y, 2, 0.4f, 1f / nscl) * 500, Astar.manhattan);
-                path.each(t -> {
-                    //don't place liquid paths near the core
-                    if(Mathf.dst2(t.x, t.y, x2, y2) <= avoid * avoid){
-                        return;
-                    }
-
-                    for(int x = -rad; x <= rad; x++){
-                        for(int y = -rad; y <= rad; y++){
-                            int wx = t.x + x, wy = t.y + y;
-                            if(Structs.inBounds(wx, wy, width, height) && Mathf.within(x, y, rad)){
-                                Tile other = tiles.getn(wx, wy);
-                                other.setBlock(Blocks.air);
-                                if(Mathf.within(x, y, rad - 1) && !other.floor().isLiquid){
-                                    Floor floor = other.floor();
-                                    //TODO does not respect tainted floors
-                                    other.setFloor((Floor)(floor == FormBlocks.pinksand || floor == FormBlocks.redstone ? FormBlocks.pinksand : FormBlocks.pinksand));
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            void connectLiquid(Room to){
-                if(to == this) return;
-
-                Vec2 midpoint = Tmp.v1.set(to.x, to.y).add(x, y).scl(0.5f);
-                rand.nextFloat();
-
-                //add randomized offset to avoid straight lines
-                midpoint.add(Tmp.v2.setToRandomDirection(rand).scl(Tmp.v1.dst(x, y)));
-                midpoint.sub(width/2f, height/2f).limit(width / 2f / Mathf.sqrt3).add(width/2f, height/2f);
-
-                int mx = (int)midpoint.x, my = (int)midpoint.y;
-
-                joinLiquid(x, y, mx, my);
-                joinLiquid(mx, my, to.x, to.y);
             }
         }
 
@@ -294,8 +245,6 @@ public class SatellitePlanetGenerator extends PlanetGenerator
         for(Room room : roomseq){
             spawn.connect(room);
         }
-
-        Room fspawn = spawn;
 
         cells(1);
 
@@ -428,9 +377,6 @@ public class SatellitePlanetGenerator extends PlanetGenerator
         float difficulty = sector.threat;
         ints.clear();
         ints.ensureCapacity(width * height / 4);
-
-        int ruinCount = rand.random(-2, 4);
-
 
         //remove invalid ores
         for(Tile tile : tiles){

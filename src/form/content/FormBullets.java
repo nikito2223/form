@@ -1,7 +1,6 @@
 package form.content;
 
 import arc.graphics.Color;
-import mindustry.content.Fx;
 import mindustry.entities.bullet.*;
 
 public class FormBullets {

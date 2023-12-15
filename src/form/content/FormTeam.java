@@ -3,14 +3,14 @@ package form.content;
 import arc.graphics.Color;
 import mindustry.game.Team;
 
+
 public class FormTeam {
     public static Team sievers;
 
     public static void load() {
-        sievers = newTeam(69, "team-sievers", Color.valueOf("2B5881"));
+        sievers = newTeam(5, "sievers", Color.valueOf("27afb6"));
     }
 
-    //modify any of 256 teams' properties
     private static Team newTeam(int id, String name, Color color) {
         Team team = Team.get(id);
         team.name = name;
@@ -25,5 +25,11 @@ public class FormTeam {
         }
 
         return team;
+
+    }
+    public String coloredName(int id, Color color){
+        Team team = Team.get(id);
+        team.color.set(color);
+        return team.emoji + "[#" + color + "]" + team.localized() + "[]";
     }
 }

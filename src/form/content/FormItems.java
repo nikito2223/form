@@ -7,7 +7,7 @@ import mindustry.type.Item;
 import static mindustry.content.Items.*;
 
 public class FormItems {
-    public static Item lithium, platinum, rubyGreen;
+    public static Item lithium, platinum, vanadium, rhodium;
 
     public static final Seq<Item> mathurakItems = new Seq<>(), mathurakOnlyItems = new Seq<>();
 
@@ -17,16 +17,20 @@ public class FormItems {
             explosiveness = 0.4f;
             cost = 1f;
         }};
-        platinum = new Item("platinum", Color.valueOf("6dd7d1")){{
+        platinum = new Item("platinum", Color.valueOf("d76dd1")){{
             cost = 1.9f;
             hardness = 2;
         }};
-		rubyGreen = new Item("Ruby-Green", Color.valueOf("a0ecbd")){{
+		rhodium = new Item("rhodium", Color.valueOf("a0ecbd")){{
+            cost = 1.9f;
+            hardness = 2;
+        }};
+        vanadium = new Item("vanadium", Color.valueOf("4b4b4b")){{
             cost = 1.9f;
             hardness = 2;
         }};
 
-        mathurakItems.addAll(lithium, platinum, rubyGreen, graphite, silicon);
+        mathurakItems.addAll(lithium, platinum, rhodium, vanadium, graphite, silicon);
 
         mathurakOnlyItems.addAll(erekirItems).removeAll(serpuloItems);
     }

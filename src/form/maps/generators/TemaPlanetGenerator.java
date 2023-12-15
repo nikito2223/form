@@ -2,20 +2,14 @@ package form.maps.generators;
 
 import arc.math.*;
 import arc.util.*;
-import arc.struct.*;
 import arc.graphics.*;
 import arc.math.geom.*;
 import arc.util.noise.*;
-import mindustry.ai.*;
 import mindustry.game.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.content.*;
-import mindustry.maps.planet.*;
-import mindustry.ai.BaseRegistry.*;
 import mindustry.maps.generators.*;
-import mindustry.graphics.g3d.PlanetGrid.*;
-import mindustry.world.blocks.environment.*;
 import form.content.*;
 
 import static mindustry.Vars.*;
@@ -105,8 +99,6 @@ public class TemaPlanetGenerator extends PlanetGenerator
         float temp = Simplex.noise3d(seed, 8, 0.6, 1f/2f, position.x, position.y + 99f, position.z);
         height *= 1.2f;
         height = Mathf.clamp(height);
-
-        float tar = Simplex.noise3d(seed, 4, 0.55f, 1f/2f, position.x, position.y + 999f, position.z) * 0.3f + Tmp.v31.dst(0, 0, 1f) * 0.2f;
 
         return arr[Mathf.clamp((int)(temp * arr.length), 0, arr[0].length - 1)][Mathf.clamp((int)(height * arr[0].length), 0, arr[0].length - 1)];
     }
