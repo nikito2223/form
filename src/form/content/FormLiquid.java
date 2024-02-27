@@ -5,9 +5,10 @@ import mindustry.content.StatusEffects;
 import mindustry.type.Liquid;
 
 public class FormLiquid {
-    public static Liquid distilledwater, fueloli, air, carbondioxide, lava;
+    public static Liquid distilledwater, fueloli, air, carbondioxide, lava, acid;
 
     public static void load() {
+        //liquid
         distilledwater = new Liquid("distilledwater", Color.valueOf("20B2AA")){{
             heatCapacity = 0.4f;
             effect = StatusEffects.wet;
@@ -30,6 +31,12 @@ public class FormLiquid {
             effect = StatusEffects.melting;
             lightColor = Color.valueOf("bf5c07").a(0.4f);
         }};
+        acid = new Liquid("acid", Color.valueOf("30801a")){{
+            temperature = 10.38f;
+            viscosity = 0.10f;
+            lightColor = Color.valueOf("30801a").a(0.4f);
+        }};
+        //gases
 		air = new Liquid("air", Color.valueOf("a0a0a0")){{
             gas = true;
             flammability = 0.01f;

@@ -1,8 +1,16 @@
 package form.content;
 
-import mindustry.content.*;
+import arc.math.*;
+import arc.math.geom.*;
 import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.Graphics.*;
+import arc.Graphics.Cursor.*;
 import arc.struct.*;
+import arc.scene.ui.layout.*;
+import arc.util.*;
+import arc.util.io.*;
+
 import mindustry.entities.pattern.ShootSpread;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.RegionPart;
@@ -23,11 +31,17 @@ import mindustry.world.blocks.storage.*;
 import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.blocks.units.*;
 import form.audio.*;
+import arc.audio.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 import form.world.blocks.campaign.*;
-
 import mindustry.world.consumers.ConsumeLiquid;
+import mindustry.content.*;
+import mindustry.game.EventType.*;
+import mindustry.gen.*;
+import mindustry.logic.*;
+import mindustry.ui.*;
+
 
 //Import static
 import static form.content.FormItems.*;
@@ -40,7 +54,7 @@ public class FormBlocks {
     //crafting
     pyratitecrucible, smelterplantupdated, siliconarcburners, coalpress, graphitepress, airFiliter, vanadiaSmelter,
     //production
-    slagdrill, crusherdrill, clippers,
+    slagdrill, crusherdrill, clippers, acidDrill,
     //distribution
     projectormoto,
     //liquids
@@ -48,7 +62,7 @@ public class FormBlocks {
     //power
     gannerSolarPanel, powerGerm, battaryLithium,
     //turrets
-    destroyers, foremdow, shower, dugasteret, tesla,
+    destroyers, foremdow, shower, dugasteret, tesla, acidGun,
     //defense
     lithiumDuct, lithiumRouter, lithiumJunction, lithiumBridgeItem,
     //environment & ores
@@ -185,6 +199,15 @@ public class FormBlocks {
 			itemCapacity = 20;
             researchCost = with(FormItems.lithium, 20);
             consumeLiquid(FormLiquid.distilledwater, 0.25f / 180f).boost();
+        }};
+        acidDrill = new Drill("acid-drill"){{
+            requirements(Category.production, with(FormItems.lithium, 90, FormItems.platinum, 40, Items.silicon, 120));
+            tier = 9;
+            drillTime = 180f;
+            size = 2;
+            itemCapacity = 20;
+            researchCost = with(FormItems.lithium, 90, FormItems.platinum, 40, Items.silicon, 120);
+            consumeLiquid(FormLiquid.acid, 0.20f / 60f);
         }};
 			clippers = new BeamDrill("clippers"){{
             requirements(Category.production, with(FormItems.lithium, 40));
@@ -592,6 +615,52 @@ public class FormBlocks {
             coolant = consumeCoolant(0.1f);
         }};
 
+        acidGun = new LiquidTurret("acid-gun"){{
+            requirements(Category.turret, with(FormItems.lithium, 1200, Items.silicon, 800, Items.graphite, 400, FormItems.platinum, 500, FormItems.vanadium, 1050));
+
+            ammo(
+            FormLiquid.acid, new LiquidBulletType(FormLiquid.acid){{
+                    lifetime = 49f;
+                    speed = 8f;
+                    knockback = 1.3f;
+                    puddleSize = 8f;
+                    orbSize = 4f;
+                    puddleSize = 8f;
+                    ammoMultiplier = 0.4f;
+                    statusDuration = 60f * 4f;
+                    status = FormStatus.platinum;
+                    damage = 2.01f;
+                    drag = 0.001f;
+                    layer = Layer.bullet - 2f;
+                    fragBullet = new BasicBulletType(5.5f, 7, "bullet"){{
+                        width = 15f;
+                        height = 7f;
+                        shrinkY = 8f;
+                        lifetime = 15f;
+                        despawnEffect = Fx.none;
+                        collidesAir = false;
+                    }};
+
+                }}
+            );
+            size = 4;
+            reload = 2f;
+            shoot.shots = 3;
+            velocityRnd = 0.1f;
+            inaccuracy = 4f;
+            recoil = 3f;
+            shootCone = 45f;
+            liquidCapacity = 60f;
+            shootEffect = Fx.shootLiquid;
+            range = 260f;
+            scaledHealth = 2500;
+            drawer = new DrawTurret("base-"){{
+
+            }};
+            flags = EnumSet.of(BlockFlag.turret, BlockFlag.extinguisher);
+            
+        }};
+
 		//endTurret
 		
 		//defense
@@ -779,7 +848,7 @@ public class FormBlocks {
 		
 		//storage
 		coretomer = new CoreBlock("core-tomer"){{
-            requirements(Category.effect, with(FormItems.lithium, 1200, FormItems.platinum, 700));
+            requirements(Category.effect, with(FormItems.lithium, 1200, FormItems.platinum, 200));
             unitType = FormUnits.arom;
             health = 18000;
             itemCapacity = 8000;
@@ -799,12 +868,13 @@ public class FormBlocks {
 		//endStorage
 		
 		//sampenat
-		launchomt = new FormLaunch("launch-otm"){{
+		launchomt = new LaunchPad("launch-otm"){{
             requirements(Category.effect, BuildVisibility.campaignOnly, with(FormItems.lithium, 40, Items.silicon, 140));
             size = 3;
             itemCapacity = 200;
             launchTime = 60f * 20;
             hasPower = true;
+            
             consumePower(4f);
         }};
 		interplanetary = new FormAccelerator("interplanetary"){{
@@ -835,6 +905,5 @@ public class FormBlocks {
             requirements(Category.defense, with(lithium, 48));
         }};
 		//endWalls
-		
     }
 }
