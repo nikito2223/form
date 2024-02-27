@@ -8,4 +8,4 @@ version: "0.0.3"
 minGameVersion: 145
 java: true
 hidden: false
-hideBrowser: true
+hideBrowser: false
