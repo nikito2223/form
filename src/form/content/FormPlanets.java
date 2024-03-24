@@ -19,6 +19,8 @@ public class FormPlanets{
 		/*star*/ sakeru, sapuke;
 
     public static void load() {
+        
+
         sakeru = new Planet("sakeru", Planets.sun, 3f, 2){{
             bloom = true;
 			solarSystem = this;
