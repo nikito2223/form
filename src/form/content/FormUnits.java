@@ -20,13 +20,13 @@ public class FormUnits{
     public static UnitType arom;
     public static UnitType herma;
     public static UnitType genrtor, mover;
-       
+        
     public static void load(){
         arom = new UnitType("arom") {{
             coreUnitDock = true;
             controller = u -> new BuilderAI(true, 500f);
             isEnemy = false;
-            envDisabled = 0;
+            envDisabled = 0; 
             targetPriority = -2;
             lowAltitude = false;
             mineWalls = true;
@@ -92,7 +92,7 @@ public class FormUnits{
             accel = 0.4f;
             rotateSpeed = 5f;
             aiController = SuicideAI::new;
-            constructor = UnitEntity::create;
+            constructor = LegsUnit::create;
             trailLength = 20;
             waveTrailX = 5f;
             trailScl = 1.3f;
@@ -101,7 +101,22 @@ public class FormUnits{
             ammoType = new PowerAmmoType(900);
             armor = 4f;
 
+            legCount = 3;
+            legMoveSpace = 0.8f;
+            legPairOffset = 3;
+            legLength = 75f;
+            legExtension = -20;
+            legBaseOffset = 8f;
+            stepShake = 1f;
+            legLengthScl = 2f;
+            rippleScale = 2f;
+            legSpeed = 1f;
+
+            legSplashDamage = 80;
+            legSplashRange = 60;
+
             buildSpeed = 1.8f;
+
 
             weapons.add(
             new Weapon("heal-weapon-mount"){{
@@ -168,7 +183,7 @@ public class FormUnits{
             accel = 0.4f;
             rotateSpeed = 5f;
             aiController = SuicideAI::new;
-            constructor = UnitEntity::create;
+            constructor = LegsUnit::create;
             trailLength = 20;
             waveTrailX = 5f;
             trailScl = 1.3f;
@@ -176,6 +191,24 @@ public class FormUnits{
             range = 100f;
             ammoType = new PowerAmmoType(900);
             armor = 4f;
+            //leg
+            legCount = 8;
+            legMoveSpace = 0.8f;
+            legPairOffset = 3;
+            legLength = 75f;
+            legExtension = -20;
+            legBaseOffset = 8f;
+            stepShake = 1f;
+            legLengthScl = 0.93f;
+            rippleScale = 3f;
+            legSpeed = 0.19f;
+
+            legSplashDamage = 80;
+            legSplashRange = 60;
+
+            hovering = true;
+            shadowElevation = 0.95f;
+            groundLayer = Layer.legUnit;
 
             buildSpeed = 1.8f;
 
@@ -300,15 +333,15 @@ public class FormUnits{
             legBaseOffset = 10f;
             stepShake = 1f;
             legLengthScl = 0.96f;
-            rippleScale = 2f;
-            legSpeed = 0.2f;
+            rippleScale = 1.4f;
+            legSpeed = 0.3f;
             ammoType = new PowerAmmoType(2000);
 
             legSplashDamage = 32;
             legSplashRange = 30;
             drownTimeMultiplier = 2f;
             aiController = SuicideAI::new;
-            constructor = UnitEntity::create;
+            constructor = LegsUnit::create;
             hovering = true;
             shadowElevation = 0.65f;
             groundLayer = Layer.legUnit;

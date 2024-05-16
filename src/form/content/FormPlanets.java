@@ -86,7 +86,7 @@ public class FormPlanets{
             };
             landCloudColor = Pal.spore.cpy().a(0.5f);
         }};
-        mathurak = new Planet("mathurak", sakeru, 1f, 3) {{
+        mathurak = new Planet("mathurak", sakeru, 1f, 2) {{
             generator = new MathurakPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 7);
             defaultCore = FormBlocks.coretomer;

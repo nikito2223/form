@@ -1,5 +1,5 @@
 @ECHO OFF
-Color 1
+Color 3
 echo. -#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 echo.
 echo.	gradlew jar --- buildPc

@@ -28,9 +28,16 @@ public class SatellitePlanetGenerator extends PlanetGenerator
     boolean genLakes = false;
 
     public Block[][] arr = {
-                    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand},
-                    {FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand}
-            };
+    {FormBlocks.darkblueStone, FormBlocks.redstone, FormBlocks.darkBlueSand, FormBlocks.pinksand},
+    {FormBlocks.pinksand, FormBlocks.darkBlueSand, FormBlocks.darkblueStone, FormBlocks.redstone},
+    {FormBlocks.darkblueStone, FormBlocks.darkBlueSand, FormBlocks.pinksand, FormBlocks.redstone},
+    {FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.darkblueStone, FormBlocks.pinksand},
+    {FormBlocks.redstone, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.darkBlueSand},
+    {FormBlocks.darkblueStone, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.pinksand},
+    {FormBlocks.darkBlueSand, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkblueStone},
+    {FormBlocks.pinksand, FormBlocks.darkblueStone, FormBlocks.redstone, FormBlocks.darkBlueSand}
+};
+
 
     ObjectMap<Block, Block> dec = ObjectMap.of(
             FormBlocks.redstone, FormBlocks.pinksand

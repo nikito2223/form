@@ -13,12 +13,14 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import form.content.*;
+import mindustry.world.blocks.campaign.Accelerator;
 
 import static mindustry.Vars.*;
 
 public class FormAccelerator extends Block{
-     public static TextureRegion arrowRegion;
-     public static boolean planetUpdate = false;
+    public TextureRegion arrowRegion;
+    //public static Texture arrow;
+    public static boolean planetUpdate = false;
     //TODO dynamic
     public Block launching = FormBlocks.coretomer;
     public int[] capacities = {};
@@ -30,6 +32,7 @@ public class FormAccelerator extends Block{
         hasItems = true;
         itemCapacity = 8000;
         configurable = true;
+        arrowRegion = Core.atlas.find(name + "-arrow");
     }
 
     @Override
@@ -49,14 +52,15 @@ public class FormAccelerator extends Block{
         return false;
     }
 
+    @SuppressWarnings("unused")
     public class AcceleratorBuild extends Building{
         public float heat, statusLerp;
 
         @Override
         public void updateTile(){
             super.updateTile();
-            heat = Mathf.lerpDelta(heat, efficiency, 0.05f);
-            statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);
+            heat = Mathf.lerpDelta(heat, efficiency, 0.07f);
+            statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.07f);
         }
 
         @Override

@@ -29,7 +29,8 @@ import static mindustry.Vars.*;
 
 public class FormLaunch extends Block{
     /** Time inbetween launches. */
-    public LaunchPad launchPad;
+    public TextureRegion lightRegion;
+    public TextureRegion podRegion;
     public float launchTime = 1f;
     public Sound launchSound = Sounds.none;
     public Color lightColor = Color.valueOf("eab678");
@@ -42,6 +43,8 @@ public class FormLaunch extends Block{
         update = true;
         configurable = true;
         flags = EnumSet.of(BlockFlag.launchPad);
+        lightRegion = Core.atlas.find(name + "-light");
+        podRegion = Core.atlas.find(name + "-pod");
     }
 
 
@@ -58,8 +61,6 @@ public class FormLaunch extends Block{
         
 
         addBar("items", entity -> new Bar(() -> Core.bundle.format("bar.items", entity.items.total()), () -> Pal.items, () -> (float)entity.items.total() / itemCapacity));
-        addBar("liquid", entity -> new Bar(() -> Core.bundle.format("bar.liquid", entity.items.total()), () -> Pal.items, () -> (float)entity.items.total() / liquidCapacity));
-
         //TODO is "bar.launchcooldown" the right terminology?
         addBar("progress", (LaunchPadBuild build) -> new Bar(() -> Core.bundle.get("bar.launchcooldown"), () -> Pal.ammo, () -> Mathf.clamp(build.launchCounter / launchTime)));
     }
@@ -95,7 +96,7 @@ public class FormLaunch extends Block{
 
             if(!state.isCampaign()) return;
 
-            if(launchPad.lightRegion.found()){
+            if(lightRegion.found()){
                 Draw.color(lightColor);
                 float progress = Math.min((float)items.total() / itemCapacity, launchCounter / launchTime);
                 int steps = 3;
@@ -107,14 +108,14 @@ public class FormLaunch extends Block{
                         float offset = -(j - 1f) * step;
 
                         Draw.color(Pal.metalGrayDark, lightColor, alpha);
-                        Draw.rect(launchPad.lightRegion, x + Geometry.d8edge(i).x * offset, y + Geometry.d8edge(i).y * offset, i * 90);
+                        Draw.rect(lightRegion, x + Geometry.d8edge(i).x * offset, y + Geometry.d8edge(i).y * offset, i * 90);
                     }
                 }
 
                 Draw.reset();
             }
 
-            Draw.rect(launchPad.podRegion, x, y);
+            Draw.rect(podRegion, x, y);
 
             Draw.reset();
         }

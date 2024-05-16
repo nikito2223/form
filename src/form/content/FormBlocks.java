@@ -327,6 +327,7 @@ public class FormBlocks {
             recoilTime = reload * 1f;
             ammoUseEffect = Fx.casing3;
             range = 230f;
+            shootY = 2f;
             drawer = new DrawTurret("base-");
             inaccuracy = 1f;
             shootCone = 35f;
@@ -644,6 +645,7 @@ public class FormBlocks {
                 }}
             );
             size = 4;
+            shootY = 5f;
             reload = 2f;
             shoot.shots = 3;
             velocityRnd = 0.1f;
@@ -668,6 +670,7 @@ public class FormBlocks {
             requirements(Category.distribution, with(FormItems.lithium, 1));
             health = 65;
             speed = 4f;
+            bridgeReplacement = lithiumBridgeItem;
             researchCost = with(FormItems.lithium, 5);
         }};
 			lithiumRouter = new DuctRouter("lithium-router"){{
@@ -678,7 +681,7 @@ public class FormBlocks {
             solid = false;
             researchCost = with(FormItems.lithium, 30);
         }};
-
+ 
 			lithiumBridgeItem = new DuctBridge("lithium-bridge"){{
             requirements(Category.distribution, with(FormItems.lithium, 6));
             health = 90;
@@ -868,7 +871,7 @@ public class FormBlocks {
 		//endStorage
 		
 		//sampenat
-		launchomt = new LaunchPad("launch-otm"){{
+		launchomt = new FormLaunch("launch-otm"){{
             requirements(Category.effect, BuildVisibility.campaignOnly, with(FormItems.lithium, 40, Items.silicon, 140));
             size = 3;
             itemCapacity = 200;
@@ -878,7 +881,7 @@ public class FormBlocks {
             consumePower(4f);
         }};
 		interplanetary = new FormAccelerator("interplanetary"){{
-            requirements(Category.effect, BuildVisibility.campaignOnly, with(FormItems.lithium, 18000, Items.silicon, 11000, FormItems.platinum, 13000));
+            requirements(Category.effect, BuildVisibility.campaignOnly, with(FormItems.lithium, 111, Items.silicon, 111, FormItems.platinum, 111));
             researchCostMultiplier = 0.1f;
             size = 7;
             hasPower = true;

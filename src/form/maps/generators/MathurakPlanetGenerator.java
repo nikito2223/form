@@ -29,17 +29,21 @@ public class MathurakPlanetGenerator extends PlanetGenerator
     boolean genLakes = false;
 
     public Block[][] arr = {
-        {Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.pinksand, FormBlocks.darkBlueSand, FormBlocks.darkBlueSand, FormBlocks.redstone},
-        {FormBlocks.pinksand, Blocks.iceSnow, FormBlocks.pinksand, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkblueStone, FormBlocks.darkBlueSand, FormBlocks.darkBlueSand, FormBlocks.redstone},
-        {FormBlocks.darkblueStone, FormBlocks.pinksand, Blocks.iceSnow, FormBlocks.pinksand, Blocks.snow, FormBlocks.redstone, FormBlocks.darkBlueSand, FormBlocks.darkBlueSand, FormBlocks.pinksand, FormBlocks.pinksand},
-        {FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.pinksand, FormBlocks.darkBlueSand, FormBlocks.darkBlueSand, FormBlocks.darkblueStone},
-        {FormBlocks.pinksand, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.darkblueStone, FormBlocks.pinksand, Blocks.snow, FormBlocks.pinksand, FormBlocks.darkBlueSand, FormBlocks.darkblueStone, FormBlocks.darkblueStone},
-        {FormBlocks.darkblueStone, Blocks.iceSnow, FormBlocks.darkBlueSand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.darkBlueSand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.darkblueStone},
-        {FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.darkblueStone, FormBlocks.darkBlueSand, FormBlocks.pinksand, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.pinksand, FormBlocks.redstone},
-        {FormBlocks.darkBlueSand, Blocks.snow, FormBlocks.darkBlueSand, FormBlocks.darkBlueSand, Blocks.snow, FormBlocks.redstone, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand},
-        {Blocks.snow, FormBlocks.darkblueStone, Blocks.snow, FormBlocks.darkBlueSand, FormBlocks.redstone, FormBlocks.redstone, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand, FormBlocks.pinksand},
-        {FormBlocks.redstone, FormBlocks.redstone, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.darkblueStone, FormBlocks.redstone, FormBlocks.darkBlueSand, FormBlocks.darkBlueSand, FormBlocks.redstone}
-    };
+        {Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand},
+        {FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow},
+        {FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone},
+        {Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand},
+        {FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow},
+        {FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone},
+        {Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand},
+        {FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow},
+        {FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone},
+        {Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand},
+        {FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow},
+        {FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone, FormBlocks.darkBlueSand, Blocks.iceSnow, FormBlocks.darkblueStone, FormBlocks.pinksand, FormBlocks.redstone}
+};
+
+
 
     ObjectMap<Block, Block> dec = ObjectMap.of(
             FormBlocks.distilledwater, FormBlocks.distilledwater
@@ -315,7 +319,7 @@ public class MathurakPlanetGenerator extends PlanetGenerator
             Tile tile = tiles.geti(i);
             if(tile.block() == Blocks.air){
                 total ++;
-                if(tile.floor().liquidDrop == Liquids.water){
+                if(tile.floor().liquidDrop == FormLiquid.distilledwater){
                     waters ++;
                 }
             }

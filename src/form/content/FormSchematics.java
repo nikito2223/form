@@ -7,6 +7,6 @@ public class FormSchematics {
     public static Schematic coreDawn;
 
     public void load() {
-        coreDawn = Schematics.readBase64("bXNjaAF4nGNgZmBmZmDJS8xNZeAty8zJSUxP9UkszUvOYOBOSS1OLsosKMnMz2NgYGDLSUxKzSlmYIqOZWQQzU/KySwDSugm5xel6kI1AlUxghCQAAAzvhc/");
+        coreDawn = Schematics.readBase64("bXNjaAF4nGNgZmBmZmDJS8xNZZDJKCkpKLbS16/MLy0p1UtK1XcNi/Q3cKwwyqkyYOBOSS1OLsosKMnMz2NgYGDLSUxKzSlmYIqOZWTgSs4vStUtzkgsSgFKMYIQkAAAhSEXTA==");
     }
 }
