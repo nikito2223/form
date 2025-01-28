@@ -42,12 +42,13 @@ import mindustry.gen.*;
 import mindustry.logic.*;
 import mindustry.ui.*;
 
-
 //Import static
 import static form.content.FormItems.*;
 import static form.content.FormLiquid.*;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.*;
+
+import form.world.blocks.defense.turrets.*;
 
 public class FormBlocks {
     public static Block 
@@ -62,7 +63,7 @@ public class FormBlocks {
     //power
     gannerSolarPanel, powerGerm, battaryLithium,
     //turrets
-    destroyers, foremdow, shower, dugasteret, tesla, acidGun,
+    destroyers, foremdow, shower, dugasteret, tesla, acidGun, frezeeningIncinerator,
     //defense
     lithiumDuct, lithiumRouter, lithiumJunction, lithiumBridgeItem,
     //environment & ores
@@ -70,17 +71,13 @@ public class FormBlocks {
     //units
     spiderFactory, spiderReconstructor,
     //storage
-    coretomer,
+    coreCaser,
     //sampenat
     launchomt, interplanetary,
     //walls
     lithiumWall, lithiumWallLarge, lithiumWallHuge;
 
-
-
-
     public static void load() {
-
         
         //endregion
         //region crafting
@@ -514,10 +511,10 @@ public class FormBlocks {
                 status = FormStatus.rhodium;
             }},
             FormItems.platinum, new BasicBulletType(8f, 55){{
-                hitEffect = despawnEffect = Fx.plasticExplosion;
+                hitEffect = despawnEffect = FormFx.platinum;
                     knockback = 3f;
                     lifetime = 80f;
-                    width = height = 13f;
+                    width = height = 1f;
                     collidesTiles = false;
                     splashDamageRadius = 35f * 0.75f;
                     splashDamage = 45f;
@@ -525,19 +522,18 @@ public class FormBlocks {
                     fragBullet = new BasicBulletType(2.5f, 10){{
                         width = 10f;
                         height = 12f;
-                        shrinkY = 1f;
+                        shrinkY = 2f;
                         backColor = FormPal.platinumBack;
                         frontColor = FormPal.platinumFront;
                         despawnEffect = Fx.none;
-                        collidesAir = false;
+                        collidesAir = true;
                     }};
-                    fragBullets = 10;
                     backColor = FormPal.platinumBack;
                     frontColor = FormPal.platinumFront;
             }}
             );
 
-            shoot = new ShootSpread(15, 4f);
+            shoot = new ShootSpread(17, 4f);
 
             coolantMultiplier = 6f;
 
@@ -557,7 +553,7 @@ public class FormBlocks {
                     moveRot = -10f;
                     mirror = true;
                     moves.add(new PartMove(PartProgress.recoil, 0f, -4f, -5f));
-                    heatColor = Color.green;
+                    heatColor = Color.red;
                 }});
             }};
             shootY = 5f;
@@ -663,39 +659,84 @@ public class FormBlocks {
             
         }};
 
+        frezeeningIncinerator = new FreezingLaserTurret("frezeening_incinerator"){{
+            requirements(Category.turret, with(FormItems.lithium, 1200, Items.silicon, 800, Items.graphite, 400, FormItems.platinum, 500, FormItems.vanadium, 1050));
+            shootEffect = FormFx.shootBigSmokFreze;
+            shootCone = 40f;
+            recoil = 4f;
+            size = 2;
+            shake = 8f;
+            range = 95f;
+            reload = 40f;
+            firingMoveFract = 0.5f;
+            shootDuration = 230f;
+            shootSound = Sounds.laserbig;
+            loopSound = Sounds.beam;
+            loopSoundVolume = 2f;
+
+            shootType = new ContinuousLaserBulletType(48){{
+                length = 96f;
+                hitEffect = FormFx.hitfrezeeningIncinerator;
+                hitColor = Color.valueOf("26beff");
+                status = StatusEffects.freezing;
+                drawSize = 420f;
+                //timescaleDamage = true;
+                despawnEffect = Fx.none;
+
+                incendChance = 0.4f;
+                incendSpread = 5f;
+                incendAmount = 1;
+                ammoMultiplier = 1f;
+            }};
+
+            drawer = new DrawTurret("base-"){{ }};
+
+            scaledHealth = 200;
+            coolant = consumeCoolant(0.5f);
+            consumePower(67f);
+        }};
+
 		//endTurret
-		
+
 		//defense
-			lithiumDuct = new Duct("lithium-duct"){{
+		lithiumDuct = new Duct("lithium-duct"){{
             requirements(Category.distribution, with(FormItems.lithium, 1));
             health = 65;
-            speed = 4f;
-            bridgeReplacement = lithiumBridgeItem;
+            speed = 4f; 
+            //bridgeReplacement = lithiumBridgeItem;
+            
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
             researchCost = with(FormItems.lithium, 5);
         }};
-			lithiumRouter = new DuctRouter("lithium-router"){{
+		lithiumRouter = new DuctRouter("lithium-router"){{
             requirements(Category.distribution, with(FormItems.lithium, 3));
             health = 90;
             speed = 5f;
             regionRotated1 = 1;
-            solid = false;
-            researchCost = with(FormItems.lithium, 30);
+            solid = true;
+            researchCost = with(FormItems.lithium, 9);
         }};
  
-			lithiumBridgeItem = new DuctBridge("lithium-bridge"){{
+		lithiumBridgeItem = new DuctBridge("lithium-bridge"){{
             requirements(Category.distribution, with(FormItems.lithium, 6));
             health = 90;
+            range = 8; // Дальность моста
             speed = 5f;
             buildCostMultiplier = 2f;
             researchCostMultiplier = 0.3f;
+            ((Duct)lithiumDuct).bridgeReplacement = this;
+            researchCost = with(FormItems.lithium, 12);
 		}};
 
-			lithiumJunction = new Junction("lithium-Junction"){{
+		lithiumJunction = new Junction("lithium-Junction"){{
             requirements(Category.distribution, with(FormItems.lithium, 2));
             speed = 26;
             capacity = 6;
             health = 30;
             buildCostMultiplier = 6f;
+
+
         }};
 		//endDefense
 		
@@ -850,7 +891,7 @@ public class FormBlocks {
 		//endUnits
 		
 		//storage
-		coretomer = new CoreBlock("core-tomer"){{
+		coreCaser = new CoreBlock("core-caser"){{
             requirements(Category.effect, with(FormItems.lithium, 1200, FormItems.platinum, 200));
             unitType = FormUnits.arom;
             health = 18000;

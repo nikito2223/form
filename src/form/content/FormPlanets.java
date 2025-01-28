@@ -21,14 +21,20 @@ public class FormPlanets{
     public static void load() {
         
 
-        sakeru = new Planet("sakeru", Planets.sun, 3f, 2){{
+        sakeru = new Planet("sakeru", sapuke, 3f, 2){{
             bloom = true;
-			solarSystem = this;
 			drawOrbit = false;
-            accessible = false;
+            accessible = true;
 			lightColor = Color.valueOf("61b3f1");
             orbitRadius = 1000;
 			hasAtmosphere = true;
+
+            alwaysUnlocked = true;
+            startSector = 0;
+
+            generator = new TemaPlanetGenerator();
+            iconColor = Color.valueOf("4e4bde");
+
             meshLoader = () -> new SunMesh(
                     this, 6,
                     5, 0.3, 1.7, 1.2, 1,
@@ -37,7 +43,8 @@ public class FormPlanets{
                     Color.valueOf("1a17e3"),
                     Color.valueOf("2f2bff"),
                     Color.valueOf("2f2bff")
-					);
+			);
+
         }};
         sapuke = new Planet("sapuke", sakeru, 2f, 0){{
             bloom = true;
@@ -61,7 +68,7 @@ public class FormPlanets{
         satellite = new Planet("satellite", sapuke, 1f, 2) {{
             generator = new SatellitePlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
-			defaultCore = FormBlocks.coretomer;
+			defaultCore = FormBlocks.coreCaser;
             cloudMeshLoader = () -> new MultiMesh(
                 new HexSkyMesh(this, 7, 0.1f, 0.28f, 5, Color.valueOf("efefef").a(0.75f), 2, 0.45f, 1.13f, 0.45f),
                 new HexSkyMesh(this, 8, 0.2f, 0.23f, 5, Color.valueOf("afafaf").a(0.65f), 3, 0.25f, 1.22f, 0.45f),
@@ -89,7 +96,7 @@ public class FormPlanets{
         mathurak = new Planet("mathurak", sakeru, 1f, 2) {{
             generator = new MathurakPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 7);
-            defaultCore = FormBlocks.coretomer;
+            defaultCore = FormBlocks.coreCaser;
             cloudMeshLoader = () -> new MultiMesh(
                     
                     new HexSkyMesh(this, 3, 0.2f, 0.23f, 5, Color.valueOf("828282").a(0.65f), 3, 0.25f, 1.22f, 0.45f),
@@ -110,8 +117,11 @@ public class FormPlanets{
             allowLaunchLoadout = false;
             solarSystem = sakeru;
             landCloudColor = Color.valueOf("41b9ec");
+
+            rotateTime = 30f; // Время вращения вокруг оси
+            orbitOffset = 45f;
             //doesn't play well with configs
-            prebuildBase = false;
+            prebuildBase = true;
             ruleSetter = r -> {
                 r.waveTeam = FormTeam.sievers;
                 r.placeRangeCheck = false;
@@ -124,12 +134,12 @@ public class FormPlanets{
             };
             iconColor = Color.valueOf("4d6aff");
             atmosphereColor = Color.valueOf("002b64");
-            atmosphereRadIn = 0.02f;
+            atmosphereRadIn = 0.01f;
             atmosphereRadOut = 0.3f;
             startSector = 15;
             alwaysUnlocked = true;
             defaultAttributes.set(FormAttributes.windPower, 0.8f);
-            unlockedOnLand.add(FormBlocks.coretomer);
+            unlockedOnLand.add(FormBlocks.coreCaser);
         }};
 
 

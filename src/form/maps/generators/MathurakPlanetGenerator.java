@@ -66,7 +66,7 @@ public class MathurakPlanetGenerator extends PlanetGenerator
     {
 
         //these always have bases
-        if(sector.id == 164 || sector.id == 0){
+        if(sector.id == 128 || sector.id == 0){
             sector.generateEnemyBase = true;
             return;
         }
@@ -463,16 +463,16 @@ public class MathurakPlanetGenerator extends PlanetGenerator
 
         pass((x, y) -> {
             //random moss
-            if(floor == FormBlocks.darkblueStone){
-                if(Math.abs(0.5f - noise(x - 90, y, 4, 0.8, 65)) > 0.02){
-                    floor = FormBlocks.darkBlueSand;
-                }
-            }
+            // if(floor == FormBlocks.darkblueStone){
+            //      if(Math.abs(0.5f - noise(x - 90, y, 4, 0.8, 65)) > 0.02){
+            //          floor = FormBlocks.darkBlueSand;
+            //     }
+            // }
 
             //tar
             if(floor == FormBlocks.darkblueStone){
                 if(Math.abs(0.5f - noise(x - 40, y, 2, 0.7, 80)) > 0.25f &&
-                        Math.abs(0.5f - noise(x, y + sector.id*10, 1, 1, 60)) > 0.41f && !(roomseq.contains(r -> Mathf.within(x, y, r.x, r.y, 15)))){
+                    Math.abs(0.5f - noise(x, y + sector.id*10, 1, 1, 60)) > 0.41f && !(roomseq.contains(r -> Mathf.within(x, y, r.x, r.y, 15)))){
                     floor = FormBlocks.redstone;
                 }
             }
@@ -547,9 +547,29 @@ public class MathurakPlanetGenerator extends PlanetGenerator
                 tile.setOverlay(Blocks.air);
             }
         }
+
         //TODO remove slag and arkycite around core.
         Schematics.placeLaunchLoadout(spawn.x, spawn.y);
 
+        for(Room espawn : enemies){
+            tiles.getn(espawn.x, espawn.y).setOverlay(Blocks.spawn);
+        }
+
+        if(sector.hasEnemyBase()){
+            basegen.generate(tiles, enemies.map(r -> tiles.getn(r.x, r.y)), tiles.get(spawn.x, spawn.y), state.rules.waveTeam, sector, difficulty);
+
+            state.rules.attackMode = sector.info.attack = true;
+        }else{
+            state.rules.winWave = sector.info.winWave = 10 + 5 * (int)Math.max(difficulty * 10, 1);
+        }
+
+        float waveTimeDec = 0.4f;
+
+        //spawn air only when spawn is blocked
+        state.rules.waveSpacing = Mathf.lerp(60 * 65 * 2, 60f * 60f * 1f, Math.max(difficulty - waveTimeDec, 0f));
+        state.rules.waves = true;
+        state.rules.env = sector.planet.defaultEnv;
+        state.rules.enemyCoreBuildRadius = 600f;
 
         //spawn air only when spawn is blocked
         state.rules.spawns = Waves.generate(difficulty, new Rand(sector.id), state.rules.attackMode, state.rules.attackMode && spawner.countGroundSpawns() == 0, naval);

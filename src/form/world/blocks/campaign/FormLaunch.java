@@ -23,7 +23,7 @@ import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.campaign.LaunchPad;
 import mindustry.world.meta.*;
-
+import mindustry.content.Liquids;
 
 import static mindustry.Vars.*;
 
@@ -32,19 +32,30 @@ public class FormLaunch extends Block{
     public TextureRegion lightRegion;
     public TextureRegion podRegion;
     public float launchTime = 1f;
-    public Sound launchSound = Sounds.none;
+    public Sound launchSound = Sounds.none; 
     public Color lightColor = Color.valueOf("eab678");
+    int liquidCapacity = 1000;  // Пример, емкость 1000 единиц жидкости
 
 
     public FormLaunch(String name){
         super(name);
         hasItems = true;
+        hasLiquids = true;
         solid = true;
         update = true;
         configurable = true;
         flags = EnumSet.of(BlockFlag.launchPad);
         lightRegion = Core.atlas.find(name + "-light");
         podRegion = Core.atlas.find(name + "-pod");
+
+        if (lightRegion == null) {
+            // обработка ошибки или использование дефолтной текстуры
+            lightRegion = Core.atlas.find("launch-otm-light");
+        }
+        if (podRegion == null) {
+            // обработка ошибки или использование дефолтной текстуры
+            podRegion = Core.atlas.find("launch-otm-pod");
+        }
     }
 
 
@@ -61,6 +72,9 @@ public class FormLaunch extends Block{
         
 
         addBar("items", entity -> new Bar(() -> Core.bundle.format("bar.items", entity.items.total()), () -> Pal.items, () -> (float)entity.items.total() / itemCapacity));
+        addBar("liquid", entity -> new Bar(() -> Core.bundle.format("bar.liquid", entity.liquids.get(Liquids.water)),() -> Pal.health,() -> (float)entity.liquids.get(Liquids.water) / liquidCapacity));
+
+
         //TODO is "bar.launchcooldown" the right terminology?
         addBar("progress", (LaunchPadBuild build) -> new Bar(() -> Core.bundle.get("bar.launchcooldown"), () -> Pal.ammo, () -> Mathf.clamp(build.launchCounter / launchTime)));
     }
@@ -124,18 +138,21 @@ public class FormLaunch extends Block{
         public boolean acceptItem(Building source, Item item){
             return items.total() < itemCapacity;
         }
-
         @Override
         public void updateTile(){
             if(!state.isCampaign()) return;
-
-            //increment launchCounter then launch when full and base conditions are met
-            if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){
-                //if there are item requirements, use those.
+        
+            // increment launchCounter then launch when full and base conditions are met
+            if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity && liquids.get(Liquids.water) >= liquidCapacity){
+                // if there are item requirements, use those.
                 consume();
                 launchSound.at(x, y);
                 LaunchPayload entity = LaunchPayload.create();
+                
+                // Add items to the launch payload
                 items.each((item, amount) -> entity.stacks.add(new ItemStack(item, amount)));
+    
+                
                 entity.set(this);
                 entity.lifetime(120f);
                 entity.team(team);
@@ -145,10 +162,10 @@ public class FormLaunch extends Block{
                 Effect.shake(3f, 3f, this);
                 launchCounter = 0f;
             }
-
-            //if Liquid
-
+        
         }
+        
+
 
         @Override
         public void display(Table table){

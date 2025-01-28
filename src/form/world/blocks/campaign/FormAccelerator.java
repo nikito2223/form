@@ -22,7 +22,7 @@ public class FormAccelerator extends Block{
     //public static Texture arrow;
     public static boolean planetUpdate = false;
     //TODO dynamic
-    public Block launching = FormBlocks.coretomer;
+    public Block launching = FormBlocks.coreCaser;
     public int[] capacities = {};
 
     public FormAccelerator(String name){

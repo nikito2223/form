@@ -14,7 +14,7 @@ public class MathurakTechTree {
 
     public static void load() {
 
-        FormPlanets.mathurak.techTree = nodeRoot("@planet.form-mathurak.name", coretomer, () -> {
+        FormPlanets.mathurak.techTree = nodeRoot("@planet.form-mathurak.name", coreCaser, () -> {
 		
             node(lithiumDuct, () -> {
                 node(lithiumRouter, () -> {

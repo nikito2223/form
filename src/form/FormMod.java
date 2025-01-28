@@ -13,10 +13,9 @@ import static mindustry.game.EventType.*;
 // End
 
 public class FormMod extends Mod{
-
+ 
 
     public FormMod(){
-    	Log.info("Logs");
         Events.on(ClientLoadEvent.class, e -> {
          Time.runTask(10f, () -> {
             BaseDialog dialog = new BaseDialog("Readme");
@@ -25,6 +24,7 @@ public class FormMod extends Mod{
             dialog.show();
             });   
         });
+
     }
     @Override
     public void loadContent(){

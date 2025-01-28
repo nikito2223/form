@@ -16,10 +16,11 @@ import static mindustry.Vars.*;
 
 public class TemaPlanetGenerator extends PlanetGenerator
 {
-        Color c1 = Color.valueOf("141e8b"), c2 = Color.valueOf("272766"), out = new Color();
+    Color c1 = Color.valueOf("141e8b"), c2 = Color.valueOf("272766"), out = new Color();
 
     Block[][] arr = {
     {FormBlocks.darkblueStone, FormBlocks.redstone, FormBlocks.darkblueStone, FormBlocks.darkblueStone, FormBlocks.darkblueStone}
+
     };
 
     {
